@@ -49,19 +49,4 @@ EaseOutIn* EaseOutIn::reverse() const
 }
 
 
-Scene* GameMapLayer::createScene()
-{
-    // 'scene' is an autorelease object
-    auto scene = Scene::create();
-
-    // 'layer' is an autorelease object
-    auto layer = GameMapLayer::create();
-
-    // add layer as a child to scene
-    scene->addChild(layer);
-
-    // return the scene
-    return scene;
-}
-
 
