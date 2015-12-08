@@ -4,7 +4,7 @@
 #include "Unit.h"
 
 struct Helicopter:public Unit{
-    Helicopter(const GameMap &g_p,const Path &p):Unit(g_p,p){};
+    Helicopter(const GameCore &g_p,const Path &p):Unit(g_p,p){};
 };
 
 #endif // HELICOPTER_H

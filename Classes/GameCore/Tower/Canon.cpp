@@ -52,12 +52,12 @@ void CanonShot::update(float dt){
             }
             f-=velocity*dt/10;
         }
-    if(state==Misle::in_cross && cross_time+2<game_map.total_time){
+    if(state==Misle::in_cross && cross_time+0.2<game_map.total_time){
         state=ded;
         alive=false;
         cerr<<"ded "<<id<<endl;
     }
-    if(state==Misle::in_miss && miss_time+2<game_map.total_time){
+    if(state==Misle::in_miss && miss_time+0.2<game_map.total_time){
         state=ded;
         alive=false;
         cerr<<"ded mised"<<id<<endl;

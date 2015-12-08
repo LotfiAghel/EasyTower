@@ -23,7 +23,7 @@ struct BoardObject{
     }
 };
 
-class GameMap;
+class GameCore;
 class Path;
 class Unit;
 class Tower;

@@ -1,7 +1,7 @@
 #include "Unit.h"
 #include "../BaseGameMap.h"
 
-Unit::Unit (const GameMap &g_p,const Path &p):game_map(g_p),distance_of_walk(0){
+Unit::Unit (const GameCore &g_p,const Path &p):game_map(g_p),distance_of_walk(0){
     alive=true;
     last_point_of_path_idx=-1;
     g=nullptr;

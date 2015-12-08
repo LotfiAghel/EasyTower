@@ -4,7 +4,7 @@
 class Unit:public BoardObject{
     float health;
 public:
-    const GameMap &game_map;
+    const GameCore &game_map;
     Path path;
     float distance_of_walk;
 
@@ -27,7 +27,7 @@ public:
 
     Sprite *g;
 
-    Unit(const GameMap &g_p,const Path &p);
+    Unit(const GameCore &g_p,const Path &p);
     virtual void  update(float dt);
     virtual void take_damage(float damage){
         health-=damage;

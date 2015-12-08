@@ -27,7 +27,7 @@
 
 
 
-class GameMap{
+class GameCore{
 public:
     float total_time=0;
    vector<Path> paths;

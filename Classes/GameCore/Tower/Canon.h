@@ -6,7 +6,7 @@
 
 
 struct Canon:public Tower{
-    Canon(GameMap &g_p,const Point &p):Tower(g_p,p){
+    Canon(GameCore &g_p,const Point &p):Tower(g_p,p){
         range=200;
         angle=0;
         angle_speed=3.1415;
@@ -15,7 +15,7 @@ struct Canon:public Tower{
 
 };
 struct CanonShot:public Misle{
-    CanonShot(const GameMap &g_p,Tower *tower,int idx):Misle(g_p,tower,idx){};
+    CanonShot(const GameCore &g_p,Tower *tower,int idx):Misle(g_p,tower,idx){};
     void update(float dt);
 };
 

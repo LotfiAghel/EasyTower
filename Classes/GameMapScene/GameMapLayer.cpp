@@ -5,74 +5,9 @@
 #include "GameCore/Tower/Gun.h"
 #include "GameCore/Tower/Rocket.h"
 #include "GameCore/Tower/Tesla.h"
+#include "Widget/easeoutin.h"
 USING_NS_CC;
 
-
-
-EaseOutIn* EaseOutIn::create(ActionInterval *action, float rate)
-{
-    EaseOutIn *easeInOut = new (std::nothrow) EaseOutIn();
-    if (easeInOut)
-    {
-        if (easeInOut->initWithAction(action, rate))
-        {
-            easeInOut->autorelease();
-        }
-        else
-        {
-            CC_SAFE_RELEASE_NULL(easeInOut);
-        }
-    }
-
-    return easeInOut;
-}
-
-EaseOutIn* EaseOutIn::clone() const
-{
-    // no copy constructor
-    auto a = new (std::nothrow) EaseOutIn();
-    a->initWithAction(_inner->clone(), _rate);
-    a->autorelease();
-    return a;
-}
-float easeOutIn(float time, float rate)
-{
-    time *= 2;
-    if (time < 1)
-    {
-        return 0.5f * (1-powf(1-time, rate));
-    }
-    else
-    {
-        return (0.5f + 0.5f * powf(time-1, rate));
-    }
-}
-void EaseOutIn::update(float time)
-{
-    _inner->update(easeOutIn(time, _rate));
-}
-
-// InOut and OutIn are symmetrical
-EaseOutIn* EaseOutIn::reverse() const
-{
-    return EaseOutIn::create(_inner->reverse(), _rate);
-}
-
-
-Scene* HelloWorld::createScene()
-{
-    // 'scene' is an autorelease object
-    auto scene = Scene::create();
-    
-    // 'layer' is an autorelease object
-    auto layer = HelloWorld::create();
-
-    // add layer as a child to scene
-    scene->addChild(layer);
-
-    // return the scene
-    return scene;
-}
 
 
 
@@ -81,7 +16,7 @@ Scene* HelloWorld::createScene()
 
 
 // on "init" you need to initialize your instance
-bool HelloWorld::init()
+bool GameMapLayer::init()
 {
     //////////////////////////////
     // 1. super init first
@@ -138,7 +73,7 @@ bool HelloWorld::init()
     b->setPosition(Point(100,100));
     b->setZOrder(100);
     scrollView->addChild(b);
-    b->addClickEventListener(CC_CALLBACK_1(HelloWorld::paresh, this));
+    b->addClickEventListener(CC_CALLBACK_1(GameMapLayer::paresh, this));
 
 
     /*b->runAction(RepeatForever::create(
@@ -247,16 +182,16 @@ bool HelloWorld::init()
     return true;
 }
 int t=0;
-void HelloWorld::tesla_anim(Sprite *imageView){
+void GameMapLayer::tesla_anim(Sprite *imageView){
     t++;
     imageView->runAction(Sequence::create(Show::create(),
                                           annn[t%3],
                                             Hide::create(),
                                             DelayTime::create(0.7),
-                                            CallFunc::create(std::bind(&HelloWorld::tesla_anim,this,imageView)),nullptr));
+                                            CallFunc::create(std::bind(&GameMapLayer::tesla_anim,this,imageView)),nullptr));
 }
 
-void HelloWorld::createTower(Tower *tower){
+void GameMapLayer::createTower(Tower *tower){
     char luncher_name[100] = {0};
     char stand_name[100] = {0};
     if(typeid(*tower) == typeid(Canon) ){
@@ -275,7 +210,6 @@ void HelloWorld::createTower(Tower *tower){
     ImageView* stand_img = ImageView::create(stand_name);
     stand_img->setPosition(tower->pos);
     stand_img->setZOrder(1);
-    stand_img->setScale(0.5);
 
     tower->back=stand_img;
 
@@ -335,7 +269,7 @@ void HelloWorld::createTower(Tower *tower){
         bul->setPosition(tower->pos);
         imageView->runAction(Sequence::create(
                                  DelayTime::create(0.7),
-                                 CallFunc::create(std::bind(&HelloWorld::tesla_anim,this,imageView)),
+                                 CallFunc::create(std::bind(&GameMapLayer::tesla_anim,this,imageView)),
                                  nullptr));
 
 
@@ -409,7 +343,7 @@ void HelloWorld::createTower(Tower *tower){
     } );
 
 }
-void HelloWorld::removeTower(Tower *tower){
+void GameMapLayer::removeTower(Tower *tower){
     if(tower->back!=nullptr)
     tower->back->removeFromParent();
     tower->luncher=nullptr;
@@ -417,7 +351,7 @@ void HelloWorld::removeTower(Tower *tower){
 
 
 }
-void HelloWorld::updateTower(Tower *tower){
+void GameMapLayer::updateTower(Tower *tower){
     //tower->back->setPosition(tower->pos);
     if(! tower->alive)
         return ;
@@ -491,7 +425,7 @@ void HelloWorld::updateTower(Tower *tower){
 
 }
 
-void HelloWorld::createMilse(Misle *misle){
+void GameMapLayer::createMilse(Misle *misle){
     if(typeid(*misle) == typeid(CanonShot) ){
         Vector<SpriteFrame*> animFrames(4);
         char str[100] = {0};
@@ -529,7 +463,7 @@ void HelloWorld::createMilse(Misle *misle){
 
 }
 
-void HelloWorld::update(float dt){
+void GameMapLayer::update(float dt){
     cerr<<"lllllllll"<<endl;
     angle+=dt*360;
 
@@ -597,9 +531,9 @@ void HelloWorld::update(float dt){
         if(misle->state==Misle::in_move && misle->alive)
         {
             if(misle->g==nullptr)
-                createMilse(game_map.misels[i]);
-            misle->g->setPosition(game_map.misels[i]->pos);
-            misle->g->setRotation(-game_map.misels[i]->angle*180/3.14);
+                createMilse(misle);
+            misle->g->setPosition(misle->pos);
+            misle->g->setRotation(-misle->angle*180/3.14);
             Point p=Point(-misle->g->getContentSize().width*0.1/2,0);
             Point p2=Point(cos(-misle->angle),sin(misle->angle));
             Point p3;
@@ -613,12 +547,10 @@ void HelloWorld::update(float dt){
                 if(misle->cross_signal && misle->g!=nullptr){
                     auto g=Sprite::create();
 
-                    addChild(g);
+                    map_img->addChild(g);
                     g->setPosition(misle->pos);
                     g->runAction(canon_cross);
                     g->runAction(FadeOut::create(0.3));
-
-                    //misle->g->setOpacity(100);
                     misle->cross_signal=false;
                 }
         }
@@ -627,7 +559,7 @@ void HelloWorld::update(float dt){
     cerr<<"update graphic misle>>"<<endl;
 }
 
-void HelloWorld::menuCloseCallback(Ref* pSender)
+void GameMapLayer::menuCloseCallback(Ref* pSender)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 	MessageBox("You pressed the close button. Windows Store Apps do not implement a close button.","Alert");
@@ -640,7 +572,7 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
     exit(0);
 #endif
 }
-void HelloWorld::paresh(Ref* pSender){
+void GameMapLayer::paresh(Ref* pSender){
     cerr<<"paresh"<<endl;
     b->runAction(MoveBy::create(3,Point(0,100)));
 }

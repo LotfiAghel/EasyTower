@@ -4,7 +4,7 @@
 #include "Tower.h"
 
 struct Tesla:public Tower{
-    Tesla(GameMap &g_p,const Point &p):Tower(g_p,p){
+    Tesla(GameCore &g_p,const Point &p):Tower(g_p,p){
         range=200;
         angle_speed=0;
     };

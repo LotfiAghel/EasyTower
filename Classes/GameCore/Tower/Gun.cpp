@@ -15,7 +15,7 @@ void Gun::update(float dt){
    find_angle(dt);
 
 
-    time_waiting_to_be_ready=10;
+    //time_waiting_to_be_ready=10;
 
 
 

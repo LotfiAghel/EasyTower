@@ -117,7 +117,7 @@ void Misle::update(float dt){
 
 }
 
-Misle::Misle(const GameMap &g_p,Tower *t,int idx):game_map(g_p),tower(t),target_idx(idx){
+Misle::Misle(const GameCore &g_p,Tower *t,int idx):game_map(g_p),tower(t),target_idx(idx){
     g=nullptr;
     alive=true;
     speed=200;

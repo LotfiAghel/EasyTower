@@ -8,7 +8,7 @@
 
 class Misle:public BoardObject{
 public:
-    const GameMap &game_map;
+    const GameCore &game_map;
     float angle;
     float max_angle_speed;
     float max_range;
@@ -34,7 +34,7 @@ public:
     Sprite *g;
     Tower *tower;
     ParticleSystem *dud;
-    Misle(const GameMap &g_p,Tower *tower,int idx);
+    Misle(const GameCore &g_p,Tower *tower,int idx);
     virtual void update(float dt);
 };
 
@@ -42,7 +42,7 @@ public:
 
 class Tower:public BoardObject{
 public:
-    GameMap &game_map;
+    GameCore &game_map;
 
     float angle;
     float angle_speed;
@@ -60,7 +60,7 @@ public:
 
     bool is_focused_on_target;
     int target_idx;
-    Tower(GameMap &g_p,const Point &p):BoardObject(),game_map(g_p),time_waiting_to_be_ready(0){
+    Tower(GameCore &g_p,const Point &p):BoardObject(),game_map(g_p),time_waiting_to_be_ready(0){
         pos=p;
         luncher=nullptr;
         misle_lunch_ted=0;

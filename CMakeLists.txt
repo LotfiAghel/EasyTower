@@ -126,6 +126,7 @@ set(GAME_SRC
   Classes/GameCore/Tower/Tesla.cpp
   Classes/GameCore/Unit/Helicopter.cpp
   Classes/UI/MainPage.cpp
+  Classes/Widget/easeoutin.cpp
   Classes/UI/ShopPage.cpp
   Classes/UI/UpgradePage.cpp
   ${PLATFORM_SPECIFIC_SRC}
@@ -145,6 +146,7 @@ set(GAME_HEADERS
   Classes/GameCore/Unit/Helicopter.h
   Classes/UI/MainPage.h
   Classes/UI/ShopPage.h
+  Classes/Widget/easeoutin.h
   Classes/UI/UpgradePage.h
   ${PLATFORM_SPECIFIC_HEADERS}
 )

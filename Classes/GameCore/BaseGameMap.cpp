@@ -29,7 +29,7 @@
 
 
 
-void GameMap::init(){
+void GameCore::init(){
     Path p;
     p.push_back({x0,y3});
     p.push_back({x1,y3});
@@ -84,7 +84,7 @@ void GameMap::init(){
 
 
 }
-void GameMap::update(float dt){
+void GameCore::update(float dt){
     cerr<<"core update <<"<<endl;
     total_time+=dt;
     for(int i=0; i<units.size();++i)
@@ -132,6 +132,6 @@ void GameMap::update(float dt){
     cerr<<"core update >>"<<endl;
 
 }
-void GameMap::add_misel(Misle *misle){
+void GameCore::add_misel(Misle *misle){
     misels.push_back(misle);
 }

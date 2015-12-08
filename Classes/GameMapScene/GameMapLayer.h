@@ -15,29 +15,10 @@ using namespace cocos2d;
 using namespace cocos2d::ui;
 
 
-class GameMap;
+class GameCore;
 class Path;
 class Unit;
 class Tower;
-
-class CC_DLL EaseOutIn : public EaseRateAction
-{
-public:
-    /** Creates the action with the inner action and the rate parameter */
-    static EaseOutIn* create(ActionInterval* action, float rate);
-
-    // Overrides
-    virtual void update(float time) override;
-    virtual EaseOutIn* clone() const  override;
-    virtual EaseOutIn* reverse() const  override;
-
-CC_CONSTRUCTOR_ACCESS:
-    EaseOutIn() {}
-    virtual ~EaseOutIn() {}
-
-private:
-    CC_DISALLOW_COPY_AND_ASSIGN(EaseOutIn);
-};
 
 class RoadSprite : public cocos2d::Sprite{
 public:
@@ -121,14 +102,14 @@ public:
     CREATE_FUNC(RoadSprite);
 };
 
-class HelloWorld : public cocos2d::Layer
+class GameMapLayer : public cocos2d::Layer
 {
 public:
     ui::ScrollView* scrollView ;
     ImageView* map_img;
     ParticleSystemQuad* par;
     float angle;
-    GameMap game_map;
+    GameCore game_map;
 
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();
@@ -147,7 +128,7 @@ public:
     void tesla_anim(Sprite *imageView);
     void update(float dt);
     // implement the "static create()" method manually
-    CREATE_FUNC(HelloWorld);
+    CREATE_FUNC(GameMapLayer);
     Button *b;
     void paresh(Ref* pSender);
     void pop_up(Ref* pSender,Tower *t){
